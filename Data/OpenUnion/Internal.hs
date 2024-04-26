@@ -23,9 +23,11 @@ module Data.OpenUnion.Internal
     , typesExhausted
     ) where
 
+
 import Control.Exception
 import Data.Dynamic
 import TypeFun.Data.List (SubList, Elem, Delete, (:++:))
+import Data.Kind (Type)
 #if MIN_VERSION_base(4,10,0)
 import Data.Proxy
 import Data.Typeable
@@ -34,7 +36,7 @@ import Data.Typeable
 -- | The @Union@ type - the phantom parameter @s@ is a list of types
 -- denoting what this @Union@ might contain.
 -- The value contained is one of those types.
-newtype Union (s :: [*]) = Union Dynamic
+newtype Union (s :: [Type]) = Union Dynamic
 
 instance Show (Union '[]) where
   show = typesExhausted
@@ -99,7 +101,7 @@ instance ( Exception e, Typeable e, Typeable es, Typeable e1
       in fmap reUnion sub
 
 
-type family FlatElems a :: [*] where
+type family FlatElems a :: [Type] where
   FlatElems '[]              = '[]
   FlatElems ((Union s) : ss) = s :++: FlatElems ss
   FlatElems (x : s)          = x : FlatElems s
