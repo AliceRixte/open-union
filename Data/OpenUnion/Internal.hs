@@ -104,6 +104,7 @@ instance ( Exception e, Typeable e, Typeable es, Typeable e1
 type family FlatElems a :: [Type] where
   FlatElems '[]              = '[]
   FlatElems ((Union s) : ss) = s :++: FlatElems ss
+  FlatElems ((Either a b) : ss) = a ': b ': FlatElems ss
   FlatElems (x : s)          = x : FlatElems s
 
 -- general note: try to keep from re-constructing Unions if an existing one
