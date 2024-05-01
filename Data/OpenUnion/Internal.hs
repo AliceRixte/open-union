@@ -74,8 +74,8 @@ instance (Ord a, Typeable a, Ord (Union (Delete a as)))
     in case (r1, r2) of
        (Right (a :: a), Right b) -> compare a b
        (Left a        , Left b)  -> compare a b
-       (Right _       , Left _)  -> GT
-       (Left  _       , Right _)  -> LT
+       (Right _       , Left _)  -> LT
+       (Left  _       , Right _)  -> GT
 
 instance (Exception e) => Exception (Union (e ': '[])) where
   toException u = case restrict u of
